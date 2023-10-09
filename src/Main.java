@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        boolean Continue = true;
+        boolean Continue = true; //t
         do {
             Scanner in = new Scanner(System.in);
             System.out.print("Лаб 2.\nВиберіть номер завдання (1-3): ");
