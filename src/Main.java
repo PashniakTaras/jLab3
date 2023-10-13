@@ -103,3 +103,269 @@ public class Main {
     }
 }
 
+// Інтерфейс для сортування та обробки елементів контейнера
+interface Containable {
+    void sort(); // Метод сортування
+
+    double norma(); // Метод обробки елементів
+}
+
+import java.util.Arrays;
+
+// Клас, який реалізує інтерфейс Containable для Bubble
+class BubbleContainer implements Containable {
+    private double[] elements;
+
+    public BubbleContainer(double[] elements) {
+        this.elements = elements;
+    }
+
+    @Override
+    public void sort() {
+        // Реалізація бульбашкового сортування
+        int n = elements.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (elements[j] > elements[j + 1]) {
+                    double temp = elements[j];
+                    elements[j] = elements[j + 1];
+                    elements[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double element : elements) {
+            sum += element;
+        }
+        return Math.sqrt(sum);
+    }
+
+    public double[] getElements() {
+        return elements;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(elements);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BubbleContainer other = (BubbleContainer) obj;
+        return Arrays.equals(elements, other.elements);
+    }
+}
+
+import java.util.Arrays;
+
+// Клас, який реалізує інтерфейс Containable для Choice
+class ChoiceContainer implements Containable {
+    private double[] elements;
+
+    public ChoiceContainer(double[] elements) {
+        this.elements = elements;
+    }
+
+    @Override
+    public void sort() {
+        // Реалізація сортування методом вибору максимального елемента
+        int n = elements.length;
+        for (int i = 0; i < n - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (elements[j] > elements[maxIndex]) {
+                    maxIndex = j;
+                }
+            }
+            double temp = elements[i];
+            elements[i] = elements[maxIndex];
+            elements[maxIndex] = temp;
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double element : elements) {
+            sum += element;
+        }
+        return sum / elements.length;
+    }
+
+    public double[] getElements() {
+        return elements;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(elements);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ChoiceContainer other = (ChoiceContainer) obj;
+        return Arrays.equals(elements, other.elements);
+    }
+}
+
+import java.util.Arrays;
+
+// Абстрактний базовий клас Container
+abstract class Container {
+    protected double[] elements;
+
+    public Container(double[] elements) {
+        this.elements = elements;
+    }
+
+    public abstract void sort(); // Абстрактний метод сортування
+
+    public abstract double norma(); // Абстрактний метод обробки елементів
+
+    public double[] getElements() {
+        return elements;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(elements);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Container other = (Container) obj;
+        return Arrays.equals(elements, other.elements);
+    }
+}
+
+// Похідний клас Bubble
+class Bubble extends Container {
+    public Bubble(double[] elements) {
+        super(elements);
+    }
+
+    @Override
+    public void sort() {
+        // Реалізація бульбашкового сортування
+        int n = elements.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (elements[j] > elements[j + 1]) {
+                    double temp = elements[j];
+                    elements[j] = elements[j + 1];
+                    elements[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double element : elements) {
+            sum += element;
+        }
+        return Math.sqrt(sum);
+    }
+}
+
+// Похідний клас Choice
+class Choice extends Container {
+    public Choice(double[] elements) {
+        super(elements);
+    }
+
+    @Override
+    public void sort() {
+        // Реалізація сортування методом вибору максимального елемента
+        int n = elements.length;
+        for (int i = 0; i < n - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (elements[j] > elements[maxIndex]) {
+                    maxIndex = j;
+                }
+            }
+            double temp = elements[i];
+            elements[i] = elements[maxIndex];
+            elements[maxIndex] = temp;
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double element : elements) {
+            sum += element;
+        }
+        return sum / elements.length;
+    }
+}
+
+// Суперклас "Транспортний засіб"
+class Transport {
+    private String name;
+    private int capacity;
+
+    public Transport(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public void show() {
+        System.out.println("Назва: " + name);
+        System.out.println("Вмістимість: " + capacity + " пасажирів");
+    }
+}
+
+// Підклас "Автомобіль"
+class Car extends Transport {
+    private int maxSpeed;
+
+    public Car(String name, int capacity, int maxSpeed) {
+        super(name, capacity);
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void show() {
+        super.show();
+        System.out.println("Максимальна швидкість: " + maxSpeed + " км/год");
+    }
+}
+
+// Підклас "Експрес"
+class Express extends Train {
+    private String destination;
+
+    public Express(String name, int capacity, int numberOfCars, String destination) {
+        super(name, capacity, numberOfCars);
+        this.destination = destination;
+    }
+
+    public void show() {
+        super.show();
+        System.out.println("Пункт призначення: " + destination);
+    }
+}
